@@ -3,11 +3,11 @@ var UsersSearch = require('./users_search');
 
 $(function () {
 
-  $(".follow-toggle").each(function (index, el) {
-    new FollowToggle(el);
-  });
-
   $(".users-search").each(function (index, el) {
     new UsersSearch(el);
+  });
+
+  $(".follow-toggle").each(function (index, el) {
+    new FollowToggle(el);
   });
 });

@@ -1,3 +1,4 @@
+var FollowToggle = require("./follow_toggle");
 var UsersSearch = function (nav) {
   this.$nav = $(nav);
   this.$input = this.$nav.children("input");
@@ -7,7 +8,6 @@ var UsersSearch = function (nav) {
 
 UsersSearch.prototype.eventListener = function () {
   this.$input.on("keyup", this.handleInput.bind(this));
-
 };
 
 UsersSearch.prototype.handleInput = function (e) {
@@ -19,6 +19,12 @@ UsersSearch.prototype.handleInput = function (e) {
     $(data).each(function (i, el) {
       var $li = $("<li>").html(el.username);
       that.$ul.append($li);
+
+      var $button = $("<button>").addClass("follow-toggle");
+      // don't hard code initial follow state !!!
+      $button.attr({ "data-initial-follow-state": "followed", "data-user-id": el.id });
+      that.$ul.append($button);
+      new FollowToggle($button[0]);
     });
   };
 
