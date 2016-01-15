@@ -1,19 +1,31 @@
 var FollowToggle = function (el) {
   this.$el = $(el);
-  this.followState = this.$el.data().initialFollowState;
-  this.userId = this.$el.data().userId;
+  this.followState = this.$el.data("initialFollowState");
+  this.userId = this.$el.data("userId");
 
   this.$el.on("click", this.handleClick.bind(this));
   this.render();
 };
 
 FollowToggle.prototype.render = function () {
-  if (this.followState === "followed") {
-    this.$el.html("Unfollow!");
-  } else if (this.followState === "unfollowed") {
-    this.$el.html("Follow!");
+  // debugger
+  switch (this.followState) {
+    case "followed":
+      this.$el.html("Unfollow!").removeProp("disabled");
+      break;
+    case "unfollowed":
+      this.$el.html("Follow!").removeProp("disabled");
+      break;
+    default:
+      this.$el.prop("disabled");
   }
 
+
+  // if (this.followState === "followed") {
+  //   this.$el.html("Unfollow!");
+  // } else if (this.followState === "unfollowed") {
+  //   this.$el.html("Follow!");
+  // }
 };
 
 FollowToggle.prototype.changeState = function () {
@@ -22,9 +34,18 @@ FollowToggle.prototype.changeState = function () {
 
 FollowToggle.prototype.handleClick = function (e) {
   e.preventDefault();
+
+  // change followed state to -ing
   this.$el.off("click");
+
+  if (this.followState === "followed") {
+    this.followState = "unfollowing";
+  } else if (this.followState === "unfollowed") {
+    this.followState = "following";
+  }
+
   var url = this.userId + "/follow";
-  var type = this.followState === "followed" ? "DELETE" : "POST";
+  var type = this.followState === "unfollowing" ? "DELETE" : "POST";
 
   var that = this;
 
@@ -33,13 +54,21 @@ FollowToggle.prototype.handleClick = function (e) {
   };
 
   var success = function (data) {
-    console.log(data);
-    that.changeState();
+    if (that.followState === "unfollowing") {
+      that.followState = "unfollowed";
+    } else if (that.followState === "following") {
+      that.followState = "followed";
+    }
+    // that.changeState();
     that.render();
   };
 
   var error = function (xhr, status, error) {
-    console.log(error);
+    if (that.followState === "unfollowing") {
+      that.followState = "followed";
+    } else if (that.followState === "following") {
+      that.followState = "unfollowed";
+    }
   };
 
   $.ajax({
