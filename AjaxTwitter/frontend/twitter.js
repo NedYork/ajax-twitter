@@ -1,4 +1,5 @@
 var FollowToggle = require('./follow_toggle');
+var UsersSearch = require('./users_search');
 
 $(function () {
 
@@ -6,4 +7,7 @@ $(function () {
     new FollowToggle(el);
   });
 
+  $(".users-search").each(function (index, el) {
+    new UsersSearch(el);
+  });
 });
