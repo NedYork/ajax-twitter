@@ -5,7 +5,7 @@
 <% end %> -->
 
 <% initial_follow_state = current_user.follows?(user) ? "followed" : "unfollowed" %>
-<% user_id = current_user.id  %>
+<% user_id = user.id  %>
 
 <button
   class="follow-toggle"
