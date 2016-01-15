@@ -11,18 +11,20 @@ FollowToggle.prototype.render = function () {
     this.$el.html("Follow!");
   }
 };
-// 
-// FollowToggle.prototype.changeState = function () {
-//
-// };
+
+FollowToggle.prototype.changeState = function () {
+  this.followState = this.followState === "followed" ? "unfollowed" : "followed";
+};
 
 FollowToggle.prototype.handleClick = function (e) {
   e.preventDefault();
   var url = this.userId + "/follow.json";
-  var type = this.followedState === "followed" ? "DELETE" : "POST";
+  var type = this.followState === "followed" ? "DELETE" : "POST";
+
   var success = function (data) {
     console.log(data);
-    // this.followedState =
+    this.changeState();
+    this.render();
   }.bind(this);
 
   var error = function (xhr, status, error) {
