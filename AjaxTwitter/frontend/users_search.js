@@ -6,15 +6,28 @@ var UsersSearch = function (nav) {
 };
 
 UsersSearch.prototype.eventListener = function () {
-  this.$input.on("keydown", this.handleInput.bind(this));
+  this.$input.on("keyup", this.handleInput.bind(this));
 
 };
 
 UsersSearch.prototype.handleInput = function (e) {
 
-  console.log(String.fromCharCode(e.keyCode));
+  // console.log(this.$input.val());
+  var success = function (data) {
 
-  
+  };
+
+  $.ajax({
+    url: "search",
+    type: "GET",
+    data: { query: this.$input.val()},
+    dataType: "json",
+    success: success,
+    error: function () {
+      console.log("You SCREWED UP!");
+    }
+  });
+
 };
 
 
