@@ -12,8 +12,9 @@ UsersSearch.prototype.eventListener = function () {
 
 UsersSearch.prototype.handleInput = function (e) {
 
+  this.$ul.html("");
+
   var that = this;
-  // console.log(this.$input.val());
   var success = function (data) {
     $(data).each(function (i, el) {
       var $li = $("<li>").html(el.username);
